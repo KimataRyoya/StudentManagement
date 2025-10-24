@@ -1,6 +1,8 @@
 package raisetech.studentManagement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +31,10 @@ public class StudentManagementApplication {
 	public String getStudentInfo(@RequestParam String name) {
 		Student student = repository.searchByName(name);
 		return student.getName() + " " + student.getAge() + "歳";
+	}
+	@GetMapping("/allStudent")
+	public List<Student> getAllStudent(){
+    return repository.searchByAllStudent();
 	}
 
 	@PostMapping("/student")
