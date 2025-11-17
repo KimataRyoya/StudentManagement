@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>お試しセレクトボックス</title>
+</head>
+<body>
+<form th:object="${studentModoki}">
+  <select th:field="*{region}">
+    <option value="">選択してください</option>
+    <option th:each="r : ${regions}"
+            th:value="${r}"
+            th:text="${r}">
+    </option>
+  </select>
+</form>
+</body>
+</html>

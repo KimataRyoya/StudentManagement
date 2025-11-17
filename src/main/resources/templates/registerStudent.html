@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <title>受講生登録</title>
   <style>
@@ -20,6 +20,39 @@
   <div>
     <label for="name">名前:</label>
     <input type="text" id="name" th:field="*{student.name}" required/>
+  </div>
+  <div>
+    <label for="furigana">フリガナ:</label>
+    <input type="text" id="furigana" th:field="*{student.furigana}" required/>
+  </div>
+  <div>
+    <label for="nickname">ニックネーム:</label>
+    <input type="text" id="nickname" th:field="*{student.nickname}" required/>
+  </div>
+  <div>
+    <label for="emailAddress">メールアドレス:</label>
+    <input type="text" id="emailAddress" th:field="*{student.emailAddress}" required/>
+  </div>
+  <div>
+    <label for="area">地域:</label>
+    <input type="text" id="area" th:field="*{student.area}" required/>
+  </div>
+  <div>
+    <label for="age">年齢:</label>
+    <input type="text" id="age" th:field="*{student.age}"/>
+  </div>
+  <div>
+    <label for="gender">性別:</label>
+    <input type="text" id="gender" th:field="*{student.gender}"/>
+  </div>
+  <div>
+    <label for="remark">備考欄:</label>
+    <input type="text" id="remark" th:field="*{student.remark}"/>
+  </div>
+  <div th:each="course, stat : *{studentCourses}">
+    <label for="courses" th:for="studentCourse.__${stat.index}__.courses">受講コース名：</label>
+    <input type="text" id="courses" th:id="studentCourse.__${stat.index}__.courses"
+           th:field="*{studentCourses[__${stat.index}__].courses}"/>
   </div>
   <div>
     <button type="submit">登録</button>
