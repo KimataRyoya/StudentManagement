@@ -11,6 +11,7 @@ import raisetech.studentManagement.domain.StudentDetail;
 import raisetech.studentManagement.repository.StudentRepository;
 
 @Service
+@Transactional
 public class StudentService {
 
   private StudentRepository repository;
@@ -28,15 +29,30 @@ public class StudentService {
     return repository.searchStudentCourseList();
   }
 
-  @Transactional
+
   public void registerStudent(StudentDetail studentDetail) {
     repository.registerStudent(studentDetail.getStudent());
-    // TODO:コース情報登録も行う。
     for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
       studentCourse.setStudentsId(studentDetail.getStudent().getId());
       studentCourse.setStart(LocalDate.now());
       studentCourse.setEnd(LocalDate.now().plusYears(1));
       repository.registerStudentCourses(studentCourse);
     }
+  }
+
+  public void updateStudent(StudentDetail studentDetail) {
+    repository.updateStudent(studentDetail.getStudent());
+    for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
+      repository.updateStudentCourses(studentCourse);
+    }
+  }
+
+  public StudentDetail findById(String id) {
+    Student student = repository.findById(id);
+    List<StudentCourse> studentCourses = repository.searchStudentsCourses(student.getId());
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourses(studentCourses);
+    return studentDetail;
   }
 }

@@ -8,11 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.studentManagement.controller.converter.StudentConverter;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentCourse;
-import raisetech.studentManagement.data.StudentModoki;
 import raisetech.studentManagement.domain.StudentDetail;
 import raisetech.studentManagement.service.StudentService;
 
@@ -58,7 +58,7 @@ public class StudentController {
   }
 
   /**
-   * 受講生登録を入力し、POSTするメソッド
+   * 受講生登録を行うメソッド
    *
    * @param studentDetail
    * @param result
@@ -74,21 +74,33 @@ public class StudentController {
   }
 
   /**
-   * 受講生コース情報を表示するメソッド（今は動かない） 削除検討
+   * IDに紐づいた受講生情報の詳細を表示するメソッド
    *
-   * @return　受講生コース情報一覧
+   * @param id
+   * @param model
+   * @return　IDに紐づいた受講生情報詳細
    */
-  @GetMapping("/studentCourseList")
-  public List<StudentCourse> getStudentCourseList() {
-    return service.searchStudentCourseList();
+  @GetMapping("/updateStudent/{id}")
+  public String updateStudent(@PathVariable String id, Model model) {
+    StudentDetail studentDetail = service.findById(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
   }
 
-  @GetMapping("/studentForm")
-  public String showForm(Model model) {
-    List<String> regions = List.of("東京", "大阪", "名古屋", "北海道");
-
-    model.addAttribute("regions", regions);
-    model.addAttribute("studentModoki", new StudentModoki());
-    return "studentForm"; //HTML名
+  /**
+   * 受講生情報の更新を行うメソッド
+   *
+   * @param studentDetail
+   * @param result
+   * @return　受講生情報一覧
+   */
+  @PostMapping("/updateStudent/{id}")
+  public String updateStudent(@PathVariable String id,
+      @ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()) {
+      return "updateStudent";
+    }
+    service.updateStudent(studentDetail);
+    return "redirect:/studentList";
   }
 }

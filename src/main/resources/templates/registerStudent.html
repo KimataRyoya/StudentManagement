@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>受講生登録</title>
   <style>
@@ -35,7 +35,11 @@
   </div>
   <div>
     <label for="area">地域:</label>
-    <input type="text" id="area" th:field="*{student.area}" required/>
+    <select id="area" th:field="*{student.area}"  required/>
+    <option value="">選択してください</option>
+    <option value="北海道">北海道</option>
+    <option value="沖縄">沖縄</option>
+    </select>
   </div>
   <div>
     <label for="age">年齢:</label>
@@ -43,7 +47,12 @@
   </div>
   <div>
     <label for="gender">性別:</label>
-    <input type="text" id="gender" th:field="*{student.gender}"/>
+    <select id="gender" th:field="*{student.gender}" required/>
+    <option value="">選択してください</option>
+    <option value="男">男</option>
+    <option value="女">女</option>
+    <option value="その他">その他</option>
+    </select>
   </div>
   <div>
     <label for="remark">備考欄:</label>
