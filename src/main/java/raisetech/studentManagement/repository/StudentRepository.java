@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentCourse;
 
@@ -22,6 +23,11 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> searchStudentCourseList();
 
+  @Select("SELECT * FROM students WHERE id = #{id}")
+  Student findById(String id);
+
+  @Select("SELECT * FROM students_courses WHERE students_id = #{studentsId}")
+  List<StudentCourse> searchStudentsCourses(String studentsId);
 
   @Insert(
       "INSERT INTO students(name, furigana, nickname, email_address, area, age, gender, remark, is_deleted) "
@@ -34,4 +40,15 @@ public interface StudentRepository {
           + "VALUES(#{studentsId}, #{courses}, #{start}, #{end})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudentCourses(StudentCourse studentCourse);
+
+  @Update("UPDATE students set name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
+      + " email_address = #{emailAddress} , area = #{area}, age = #{age}, gender = #{gender}, "
+      + " remark = #{remark}, is_deleted = #{isDeleted} where id = #{id} ")
+  void updateStudent(Student student);
+
+  @Update(
+      "UPDATE students_courses set  courses = #{courses} where id = #{id} ")
+  void updateStudentCourses(StudentCourse studentCourse);
+
+
 }

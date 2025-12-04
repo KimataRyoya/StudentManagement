@@ -31,7 +31,12 @@
   </tr>
   <tr th:each="studentDetail : ${studentList}">
     <td th:text="${studentDetail.student.id}">1</td>
-    <td th:text="${studentDetail.student.name}">山田太郎</td>
+    <td>
+      <a th:href="@{'/updateStudent/' + ${studentDetail.student.id}}"
+         th:text="${studentDetail.student.name}">
+        山田太郎
+      </a>
+    </td>
     <td th:text="${studentDetail.student.furigana}">ヤマダタロウ</td>
     <td th:text="${studentDetail.student.nickname}">タロウ</td>
     <td th:text="${studentDetail.student.emailAddress}">yamada.gmail.com</td>
@@ -39,6 +44,12 @@
     <td th:text="${studentDetail.student.age}">58</td>
     <td th:text="${studentDetail.student.gender}">女性</td>
     <td th:text="${studentDetail.student.remark}">特になし</td>
+    <td>
+      <ul>
+        <li th:each="studentCourses : ${studentDetail.studentCourses}"
+            th:text="${studentCourses.courses}"></li>
+      </ul>
+    </td>
   </tr>
 </table>
 </body>
